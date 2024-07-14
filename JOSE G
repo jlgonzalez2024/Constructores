@@ -1,0 +1,36 @@
+class MiArchivo:
+    def __init__(self, nombre_archivo, modo):
+        self.nombre_archivo = nombre_archivo
+        self.modo = modo
+        self.archivo = open(nombre_archivo, modo)
+        print(f'Se ha abierto el archivo {nombre_archivo} en modo {modo}')
+
+    def escribir(self, texto):
+        self.archivo.write(texto)
+
+    def cerrar(self):
+        self.archivo.close()
+        print(f'Se ha cerrado el archivo {self.nombre_archivo}')
+
+    def __del__(self):
+        try:
+            self.archivo.close()
+            print(f'Archivo {self.nombre_archivo} cerrado en el destructor')
+        except AttributeError:
+            pass  # Puede ocurrir si el archivo no se llegó a abrir correctamente
+
+# Ejemplo de uso
+if __name__ == "__main__":
+    archivo = MiArchivo("ejemplo.txt", "w")
+    archivo.escribir("Hola, mundo!")
+    del archivo  # Simulando la eliminación del objeto
+
+
+
+
+Explicación del código:
+
+La clase MiArchivo tiene un constructor (__init__) que recibe el nombre del archivo y el modo de apertura. Abre el archivo especificado en el modo dado.
+Tiene un método escribir que permite escribir en el archivo.
+Tiene un método cerrar que cierra el archivo y muestra un mensaje indicando que se cerró.
+El destructor (__del__) intenta cerrar el archivo cuando el objeto se elimina. Esto asegura que los recursos asociados (en este caso, el archivo abierto) se liberen correctamente cuando el objeto ya no se necesita.
